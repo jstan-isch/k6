@@ -15,8 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - run: ls -la
       - name: Run load test using action code from commit
-        uses: ./
+        uses: ./.github/actions
         with:
           cloud: true
           token: ${{ secrets.K6_TOKEN }}
