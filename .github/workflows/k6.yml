@@ -19,7 +19,7 @@ jobs:
       - name: Run load test using action code from commit
         uses: ./.github/actions
         with:
-          cloud: true
+          cloud: false
           token: ${{ secrets.K6_TOKEN }}
           flags: --vus 1 --duration 10s
       
