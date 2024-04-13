@@ -11,9 +11,10 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  run-k6-test:
     runs-on: ubuntu-latest
-    container: grafana/k6:latest
+    container: 
+      image: grafana/k6:latest
     steps:
       - uses: actions/checkout@v3
       - name: Run a k6 load testing
