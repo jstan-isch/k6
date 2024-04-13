@@ -1,0 +1,23 @@
+# This is a basic workflow to help you get started with Actions
+
+name: k6
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: grafana/k6:latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run a k6 load testing
+        run: |
+          k6 run test.js --vus 1 --duration 10s
+
+      
