@@ -13,12 +13,12 @@ on:
 jobs:
   run-k6-test:
     runs-on: ubuntu-latest
-    container: 
-      image: grafana/k6:latest
     steps:
       - uses: actions/checkout@v3
-      - name: Run a k6 load testing
-        run: |
-          k6 run test.js --vus 1 --duration 10s
-
+      - name: Run load test using action code from commit
+        uses: ./
+        with:
+          cloud: true
+          token: ${{ secrets.K6_TOKEN }}
+          flags: --vus 1 --duration 10s
       
