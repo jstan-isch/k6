@@ -9,6 +9,8 @@ on:
     branches: [ "main" ]
 
   workflow_dispatch:
+permissions: 
+   pull-requests: write 
 
 jobs:
   run-k6-test:
