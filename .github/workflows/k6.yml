@@ -18,6 +18,7 @@ jobs:
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v2
         with:
+          pr_number: 1
           message: |
             Hi **${{ github.actor }}** :wave:, have you updated the README doc!
           
