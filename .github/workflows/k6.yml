@@ -24,7 +24,7 @@ jobs:
         with:
           pr_number: 1
           message: |
-            Hi :wave: **${{ github.actor }}**, have you updated the [README](https://github.com/jstan-isch/k6/blob/test/README.md) doc!
+            Hi :wave: **${{ github.actor }}**, have you updated the [README](https://github.com/${{ github.repository }}/blob/${{ github.head_ref }}/README.md) doc!
           
       
       
