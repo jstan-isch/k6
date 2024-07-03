@@ -17,12 +17,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - run: |
+          echo ${{ toJSON(github) }}
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v2
         with:
           pr_number: 1
           message: |
-            Hi **${{ github.actor }}** :wave:, have you updated the README doc!
+            Hi :wave: **${{ github.actor }}**, have you updated the [README](https://github.com/jstan-isch/k6/blob/test/README.md) doc!
           
       
       
