@@ -16,7 +16,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: theboi/github-update-readme@v1.0
-        env: ${{ secrets.GITHUB_TOKEN }}
+        env: 
+          ${{ secrets.GITHUB_TOKEN }}
         with: 
           header: "Hey!"
           subhead: "Test if this workflow notifies developer to update the readme.md"
