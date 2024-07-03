@@ -20,7 +20,7 @@ jobs:
         with: 
           header: "Hey!"
           subhead: "Test if this workflow notifies developer to update the readme.md"
-          footer: "Let's see the final result"
+          footer: "**Lets see the final result**"
       
       
       # - run: ls -la
