@@ -14,12 +14,20 @@ jobs:
   run-k6-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - run: ls -la
-      - name: Run load test using action code from commit
-        uses: ./.github/actions
-        with:
-          cloud: false
-          token: ${{ secrets.K6_TOKEN }}
-          flags: --vus 1 --duration 10s
+      - uses: actions/checkout@v4
+      - uses: theboi/github-update-readme@1.0
+        env: ${{ secrets.GITHUB_TOKEN }}
+        with: 
+          header: "Hey!"
+          subhead: "Test if this workflow notifies developer to update the readme.md"
+          footer: "Let's see the final result"
+      
+      
+      # - run: ls -la
+      # - name: Run load test using action code from commit
+      #   uses: ./.github/actions
+      #   with:
+      #     cloud: false
+      #     token: ${{ secrets.K6_TOKEN }}
+      #     flags: --vus 1 --duration 10s
       
