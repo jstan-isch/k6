@@ -9,17 +9,106 @@ on:
     branches: [ "main" ]
 
   workflow_dispatch:
+permissions: 
+   pull-requests: write 
 
 jobs:
   run-k6-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Comment PR
-        uses: thollander/actions-comment-pull-request@v2
+      - name: Check README last modified date
+        id: readme-check
+        run: |
+          LAST_MODIFIED=$(git log -1 --format=%cd --date=short -- README.md)
+          CURRENT_DATE=$(date +%Y-%m-%d)
+          DAYS_SINCE=$(((`date -d "$CURRENT_DATE" +%s` - `date -d "$LAST_MODIFIED" +%s`)/86400))
+          if [ $DAYS_SINCE -eq 0 ]; then
+            echo "README_NEEDS_UPDATE=true" >> $GITHUB_ENV
+          fi
+
+      - name: Create issue if README needs update
+        if: env.README_NEEDS_UPDATE == 'true'
+        uses: actions/github-script@v6
         with:
-          message: |
-            Hi **${{ github.actor }}** :wave:, have you updated the README doc!
+          github-token: ${{secrets.PAT}}
+          script: |
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🚨 URGENT: README Needs Updating! 🚨',
+              body: `
+            # 🔴 ATTENTION: README Update Required 🔴
+
+            > [!IMPORTANT]
+            > The README has not been updated in over 30 days!
+
+            ## 🚀 Action Required:
+            1. Review the current README
+            2. Update content to reflect recent changes
+            3. Ensure all information is current and accurate
+
+            ### Why this matters:
+            - 📚 Keeps documentation fresh
+            - 🧭 Guides new contributors effectively
+            - 🌟 Maintains project quality
+
+            **Please prioritize this update to keep our project documentation current and helpful!**
+
+            ![Update Reminder](https://media.giphy.com/media/3o7btQ0NH6Kl8CxCfK/giphy.gif)
+            `
+            })
+
+      - name: Comment on recent PRs
+        if: env.README_NEEDS_UPDATE == 'true'
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{secrets.PAT}}
+          script: |
+            const prs = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              sort: 'updated',
+              direction: 'desc',
+              per_page: 5
+            });
+            
+            for (const pr of prs.data) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                body: `
+            # 🚨 README Update Alert 🚨
+
+            > [!WARNING]
+            > Our README is out of date! Please check the newly created issue for details.
+
+            We need all hands on deck to keep our documentation current. Can you help?
+            `
+              });
+            }
+
+
+
+
+
+
+
+# jobs:
+#   run-k6-test:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
+#       # - run: |
+#       #     echo ${{ toJSON(github) }}
+#       - name: Comment PR
+#         uses: thollander/actions-comment-pull-request@v2
+#         with:
+#           pr_number: 1
+#           message: |
+#             Hi :wave: @**${{ github.actor }}**, have you updated the [README](https://github.com/${{ github.repository }}/blob/${{ github.head_ref }}/README.md) doc!
           
       
       
