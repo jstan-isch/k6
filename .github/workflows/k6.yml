@@ -16,6 +16,7 @@ jobs:
   run-k6-test:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Check README last modified date
         id: readme-check
         run: |
