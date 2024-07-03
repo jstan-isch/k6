@@ -23,7 +23,7 @@ jobs:
           LAST_MODIFIED=$(git log -1 --format=%cd --date=short -- README.md)
           CURRENT_DATE=$(date +%Y-%m-%d)
           DAYS_SINCE=$(((`date -d "$CURRENT_DATE" +%s` - `date -d "$LAST_MODIFIED" +%s`)/86400))
-          if [ $DAYS_SINCE -gt 30 ]; then
+          if [ $DAYS_SINCE -eq 0 ]; then
             echo "README_NEEDS_UPDATE=true" >> $GITHUB_ENV
           fi
 
