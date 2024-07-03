@@ -15,13 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: theboi/github-update-readme@v1.0
-        env: 
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with: 
-          header: "Hey!"
-          subhead: "Test if this workflow notifies developer to update the readme.md"
-          footer: "**Lets see the final result**"
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            Hi **${{ github.actor }}** :wave:, have you updated the README doc!
+          
       
       
       # - run: ls -la
