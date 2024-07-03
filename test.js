@@ -24,3 +24,4 @@ export default function () {
   });
   failRate.add(result.status !== 200);
 }
+
