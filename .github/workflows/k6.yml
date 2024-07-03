@@ -17,8 +17,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: |
-          echo ${{ toJSON(github) }}
+      # - run: |
+      #     echo ${{ toJSON(github) }}
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v2
         with:
